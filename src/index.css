@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: only light;
+  --ink: #1d1a14;
+  --cream: #f7f5ef;
+  --sand: #efe6d5;
+  --stone: #d9d1c0;
+  --shadow: rgba(27, 23, 18, 0.15);
+  --soft-shadow: rgba(27, 23, 18, 0.08);
+  --teal: #2f7a76;
+  --coral: #e07a5f;
+  --mint: #81b29a;
+  --sun: #f2cc8f;
+  --deep: #3d405b;
+}
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at top, #fff7e6 0%, #f6f0e6 40%, #efe7dc 100%);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+label:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #5a5246;
+  margin-bottom: 8px;
+}

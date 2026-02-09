@@ -4,8 +4,8 @@
 Visual-only upsell funnel builder with a draggable palette, canvas with pan, node connections, edge deletion, zoom, and localStorage persistence. Built with React + TypeScript and an HTML Canvas layer for grid + arrows.
 
 **Submission**
-Demo URL: `TBD`
-GitHub repo: `TBD`
+Demo URL: `https://cartpanda-andrea.vercel.app`
+GitHub repo: `https://github.com/andreakosta0001/cartpanda-funnel`
 
 **Features**
 - Drag node types from the palette into the canvas
