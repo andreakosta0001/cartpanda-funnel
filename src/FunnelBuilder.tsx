@@ -180,17 +180,40 @@ const FunnelBuilder: React.FC = () => {
     setEdges((prev) => dedupeEdges([...prev, nextEdge]));
   };
 
-  const handleExport = () => {
-    const payload: FunnelState = { nodes, edges, pan, zoom };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "funnel.json";
-    link.click();
-    URL.revokeObjectURL(url);
+  const handleExport = async () => {
+    try {
+      const payload: FunnelState = { nodes, edges, pan, zoom };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {
+        type: "application/json;charset=utf-8",
+      });
+      const fileName = "funnel.json";
+
+      if ("showSaveFilePicker" in window) {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName: fileName,
+          types: [
+            {
+              description: "JSON",
+              accept: { "application/json": [".json"] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+      } else {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 0);
+      }
+    } catch {
+      setImportError("Export failed. Please try again.");
+    }
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +222,9 @@ const FunnelBuilder: React.FC = () => {
       return;
     }
     const reader = new FileReader();
+    reader.onerror = () => {
+      setImportError("Unable to read the file. Please try again.");
+    };
     reader.onload = () => {
       try {
         const parsed = JSON.parse(String(reader.result ?? ""));
@@ -222,6 +248,7 @@ const FunnelBuilder: React.FC = () => {
       }
     };
     reader.readAsText(file);
+    event.target.value = "";
   };
 
   const handleReset = () => {

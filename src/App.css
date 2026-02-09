@@ -34,6 +34,7 @@
   align-items: center;
 }
 
+
 .action-button {
   border: none;
   border-radius: 999px;
@@ -156,6 +157,8 @@
   padding: 20px;
   box-shadow: 0 20px 40px var(--soft-shadow);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
 }
 
 .palette-header h2,
@@ -175,6 +178,7 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 16px;
+  height: calc(100% - 64px);
 }
 
 .palette-item {
@@ -182,7 +186,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 0 14px;
   background: #fff;
   border: 1px solid rgba(61, 64, 91, 0.15);
   border-radius: 14px;
@@ -190,6 +194,8 @@
   text-align: left;
   appearance: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex: 1 1 0;
+  min-height: 54px;
 }
 
 .palette-item:hover {
@@ -214,18 +220,6 @@
 .palette-title {
   font-weight: 600;
   display: block;
-}
-
-.palette-helper {
-  font-size: 0.85rem;
-  color: #665d52;
-}
-
-.palette-drag {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #90867b;
 }
 
 .canvas-stage {

@@ -208,7 +208,9 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   backdrop-filter: blur(10px);
   background: #ffffffd9;
   border-radius: 20px;
+  flex-direction: column;
   padding: 20px;
+  display: flex;
 }
 
 .palette-header h2, .validation-header h2 {
@@ -224,6 +226,7 @@ button:focus-visible, input:focus-visible, label:focus-visible {
 .palette-list {
   flex-direction: column;
   gap: 12px;
+  height: calc(100% - 64px);
   margin-top: 16px;
   display: flex;
 }
@@ -235,10 +238,12 @@ button:focus-visible, input:focus-visible, label:focus-visible {
   background: #fff;
   border: 1px solid #3d405b26;
   border-radius: 14px;
+  flex: 1 1 0;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
+  min-height: 54px;
+  padding: 0 14px;
   transition: transform .2s, box-shadow .2s;
   display: grid;
 }
@@ -265,18 +270,6 @@ button:focus-visible, input:focus-visible, label:focus-visible {
 .palette-title {
   font-weight: 600;
   display: block;
-}
-
-.palette-helper {
-  color: #665d52;
-  font-size: .85rem;
-}
-
-.palette-drag {
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #90867b;
-  font-size: .75rem;
 }
 
 .canvas-stage {

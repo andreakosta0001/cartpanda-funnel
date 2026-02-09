@@ -45,10 +45,6 @@ const Palette: React.FC<PaletteProps> = ({ onAdd }) => {
               </span>
               <span className="palette-text">
                 <span className="palette-title">{template.label}</span>
-                <span className="palette-helper">{template.helper}</span>
-              </span>
-              <span className="palette-drag" aria-hidden="true">
-                Drag
               </span>
             </button>
           );

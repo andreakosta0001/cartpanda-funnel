@@ -25218,29 +25218,58 @@ const FunnelBuilder = ()=>{
                 nextEdge
             ]));
     };
-    const handleExport = ()=>{
-        const payload = {
-            nodes,
-            edges,
-            pan,
-            zoom
-        };
-        const blob = new Blob([
-            JSON.stringify(payload, null, 2)
-        ], {
-            type: "application/json"
-        });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "funnel.json";
-        link.click();
-        URL.revokeObjectURL(url);
+    const handleExport = async ()=>{
+        try {
+            const payload = {
+                nodes,
+                edges,
+                pan,
+                zoom
+            };
+            const blob = new Blob([
+                JSON.stringify(payload, null, 2)
+            ], {
+                type: "application/json;charset=utf-8"
+            });
+            const fileName = "funnel.json";
+            if ("showSaveFilePicker" in window) {
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: fileName,
+                    types: [
+                        {
+                            description: "JSON",
+                            accept: {
+                                "application/json": [
+                                    ".json"
+                                ]
+                            }
+                        }
+                    ]
+                });
+                const writable = await handle.createWritable();
+                await writable.write(blob);
+                await writable.close();
+            } else {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                setTimeout(()=>URL.revokeObjectURL(url), 0);
+            }
+        } catch  {
+            setImportError("Export failed. Please try again.");
+        }
     };
     const handleImport = (event)=>{
         const file = event.target.files?.[0];
         if (!file) return;
         const reader = new FileReader();
+        reader.onerror = ()=>{
+            setImportError("Unable to read the file. Please try again.");
+        };
         reader.onload = ()=>{
             try {
                 const parsed = JSON.parse(String(reader.result ?? ""));
@@ -25262,6 +25291,7 @@ const FunnelBuilder = ()=>{
             }
         };
         reader.readAsText(file);
+        event.target.value = "";
     };
     const handleReset = ()=>{
         const defaults = cloneDefaults();
@@ -25298,20 +25328,20 @@ const FunnelBuilder = ()=>{
                                 children: "Cartpanda Practical Test - Andrea"
                             }, void 0, false, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 258,
+                                lineNumber: 285,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
                                 children: "Upsell Funnel Builder"
                             }, void 0, false, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 259,
+                                lineNumber: 286,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/FunnelBuilder.tsx",
-                        lineNumber: 257,
+                        lineNumber: 284,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -25324,7 +25354,7 @@ const FunnelBuilder = ()=>{
                                 children: "Export JSON"
                             }, void 0, false, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 262,
+                                lineNumber: 289,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -25339,13 +25369,13 @@ const FunnelBuilder = ()=>{
                                         onChange: handleImport
                                     }, void 0, false, {
                                         fileName: "src/FunnelBuilder.tsx",
-                                        lineNumber: 267,
+                                        lineNumber: 294,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 265,
+                                lineNumber: 292,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -25355,7 +25385,7 @@ const FunnelBuilder = ()=>{
                                 children: "Reset"
                             }, void 0, false, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 274,
+                                lineNumber: 301,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -25370,7 +25400,7 @@ const FunnelBuilder = ()=>{
                                         children: "-"
                                     }, void 0, false, {
                                         fileName: "src/FunnelBuilder.tsx",
-                                        lineNumber: 282,
+                                        lineNumber: 309,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -25383,7 +25413,7 @@ const FunnelBuilder = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/FunnelBuilder.tsx",
-                                        lineNumber: 285,
+                                        lineNumber: 312,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -25393,25 +25423,25 @@ const FunnelBuilder = ()=>{
                                         children: "+"
                                     }, void 0, false, {
                                         fileName: "src/FunnelBuilder.tsx",
-                                        lineNumber: 288,
+                                        lineNumber: 315,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/FunnelBuilder.tsx",
-                                lineNumber: 281,
+                                lineNumber: 308,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/FunnelBuilder.tsx",
-                        lineNumber: 261,
+                        lineNumber: 288,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/FunnelBuilder.tsx",
-                lineNumber: 256,
+                lineNumber: 283,
                 columnNumber: 7
             }, undefined),
             warningMessage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _alertModalDefault.default), {
@@ -25419,7 +25449,7 @@ const FunnelBuilder = ()=>{
                 onClose: ()=>setWarningMessage(null)
             }, void 0, false, {
                 fileName: "src/FunnelBuilder.tsx",
-                lineNumber: 295,
+                lineNumber: 322,
                 columnNumber: 9
             }, undefined),
             importError && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -25427,7 +25457,7 @@ const FunnelBuilder = ()=>{
                 children: importError
             }, void 0, false, {
                 fileName: "src/FunnelBuilder.tsx",
-                lineNumber: 300,
+                lineNumber: 327,
                 columnNumber: 23
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -25437,7 +25467,7 @@ const FunnelBuilder = ()=>{
                         onAdd: handlePaletteAdd
                     }, void 0, false, {
                         fileName: "src/FunnelBuilder.tsx",
-                        lineNumber: 302,
+                        lineNumber: 329,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _canvasStageDefault.default), {
@@ -25456,19 +25486,19 @@ const FunnelBuilder = ()=>{
                         onViewportResize: setViewport
                     }, void 0, false, {
                         fileName: "src/FunnelBuilder.tsx",
-                        lineNumber: 303,
+                        lineNumber: 330,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/FunnelBuilder.tsx",
-                lineNumber: 301,
+                lineNumber: 328,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/FunnelBuilder.tsx",
-        lineNumber: 255,
+        lineNumber: 282,
         columnNumber: 5
     }, undefined);
 };
@@ -28689,36 +28719,17 @@ const Palette = ({ onAdd })=>{
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                 className: "palette-text",
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        className: "palette-title",
-                                        children: template.label
-                                    }, void 0, false, {
-                                        fileName: "src/components/Palette.tsx",
-                                        lineNumber: 47,
-                                        columnNumber: 17
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        className: "palette-helper",
-                                        children: template.helper
-                                    }, void 0, false, {
-                                        fileName: "src/components/Palette.tsx",
-                                        lineNumber: 48,
-                                        columnNumber: 17
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/Palette.tsx",
-                                lineNumber: 46,
-                                columnNumber: 15
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                className: "palette-drag",
-                                "aria-hidden": "true",
-                                children: "Drag"
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                    className: "palette-title",
+                                    children: template.label
+                                }, void 0, false, {
+                                    fileName: "src/components/Palette.tsx",
+                                    lineNumber: 47,
+                                    columnNumber: 17
+                                }, undefined)
                             }, void 0, false, {
                                 fileName: "src/components/Palette.tsx",
-                                lineNumber: 50,
+                                lineNumber: 46,
                                 columnNumber: 15
                             }, undefined)
                         ]
